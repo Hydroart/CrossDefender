@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4660076192433278}
   - component: {fileID: 114231493902538710}
-  - component: {fileID: 114435281327171648}
   - component: {fileID: 114145887554720856}
   - component: {fileID: 212971026275759962}
   - component: {fileID: 95975118031919256}
@@ -131,25 +130,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &114435281327171648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377240496476148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9955788a5eaffa49a9297f38eaa6202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dmgValue: 4
-  throwableObject: {fileID: 5532974359214069763, guid: 340067e8e5a097546ad175f1d00a6ece, type: 3}
-  attackCheck: {fileID: 4370582630649528}
-  animator: {fileID: 95975118031919256}
-  canAttack: 1
-  isTimeToCheck: 0
-  cam: {fileID: 0}
 --- !u!114 &114145887554720856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +145,8 @@ MonoBehaviour:
   controller: {fileID: 114231493902538710}
   animator: {fileID: 95975118031919256}
   runSpeed: 40
+  goldText: {fileID: 0}
+  killCountText: {fileID: 0}
 --- !u!212 &212971026275759962
 SpriteRenderer:
   m_ObjectHideFlags: 0

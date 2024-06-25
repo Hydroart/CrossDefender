@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-	public float dmgValue = 4;
-	public GameObject throwableObject;
 	public Transform attackCheck;
 	private Rigidbody2D m_Rigidbody2D;
 	public Animator animator;
 	public bool canAttack = true;
 	public bool isTimeToCheck = false;
+	private GameObject attackArea = default;
 
 	public GameObject cam;
+	private bool attacking = false;
+	private float timeToAttack = 0.25f;
+    private float timer = 0f;
 
 	private void Awake()
 	{
@@ -22,7 +24,7 @@ public class Attack : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        
+        attackArea = transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -30,17 +32,21 @@ public class Attack : MonoBehaviour
     {
 		if (Input.GetKeyDown(KeyCode.X) && canAttack)
 		{
-			canAttack = false;
-			animator.SetBool("IsAttacking", true);
+			Attacks();
+			SoundManager.instance.PlaySFX("Attack");
 			StartCoroutine(AttackCooldown());
-		}
+			if(attacking)
+        {
+            timer += Time.deltaTime;
 
-		if (Input.GetKeyDown(KeyCode.V))
-		{
-			GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f,-0.2f), Quaternion.identity) as GameObject; 
-			Vector2 direction = new Vector2(transform.localScale.x, 0);
-			throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction; 
-			throwableWeapon.name = "ThrowableWeapon";
+            if(timer >= timeToAttack)
+            {
+                timer = 0;
+                attacking = false;
+                attackArea.SetActive(attacking);
+            }
+
+        }
 		}
 	}
 
@@ -49,22 +55,9 @@ public class Attack : MonoBehaviour
 		yield return new WaitForSeconds(0.25f);
 		canAttack = true;
 	}
-
-	public void DoDashDamage()
-	{
-		dmgValue = Mathf.Abs(dmgValue);
-		Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 0.9f);
-		for (int i = 0; i < collidersEnemies.Length; i++)
-		{
-			if (collidersEnemies[i].gameObject.tag == "Enemy")
-			{
-				if (collidersEnemies[i].transform.position.x - transform.position.x < 0)
-				{
-					dmgValue = -dmgValue;
-				}
-				collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
-				cam.GetComponent<CameraFollow>().ShakeCamera();
-			}
-		}
-	}
+	private void Attacks()
+    {
+ 	        attacking = true;
+        attackArea.SetActive(attacking);
+    }
 }
